@@ -1,11 +1,9 @@
 # iSORT
 ## iSORT : an Integrative Method for Reconstructing Spatial Organization of Cells via Transfer Learning
-iSORT 
+[![python >=3.8](https://img.shields.io/badge/python-%3E%3D3.8-brightgreen)](https://www.python.org/) [![DOI]
 
-## Pipeline for single-slice case
+### Pipeline for single-slice case
 
 ![avatar](pipeline/pipeline_single_slice.png)
 
-## Pipeline for multi-slice case
-![avatar](pipeline/pipeline_multi_slice.png)
-
+## Requirements and Installation

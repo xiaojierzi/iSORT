@@ -19,3 +19,16 @@
 [![torchaudio 2.0.2](https://img.shields.io/badge/torchaudio-2.0.2-brightgreen)](https://pytorch.org/)
 [![torchvision 0.15.2](https://img.shields.io/badge/torchvision-0.15.2-brightgreen)](https://pytorch.org/)
 
+
+### Create and activate Python environment
+It is recommended to create a virtual environment for using iSORT to avoid any conflicts with existing Python installations. You can create a virtual environment using Anaconda:
+```bash
+conda create -n isortpy-env python=3.8 
+conda activate isortpy-env
+
+
+
+
+### Install pytorch
+### Install other packages
+

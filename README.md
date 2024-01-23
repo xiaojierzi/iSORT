@@ -23,8 +23,8 @@
 ### Create and activate Python environment
 It is recommended to create a virtual environment for using iSORT to avoid any conflicts with existing Python installations. You can create a virtual environment using Anaconda:
 ```bash
-conda create -n iSORT python=3.8 
-conda activate iSORT
+conda create -n iSORT-env python=3.8 
+conda activate iSORT-env
 ```
 
 
@@ -41,6 +41,26 @@ conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvi
 Note: This is just an example. Please refer to the PyTorch website for the command that matches your system's specific requirements.
 
 
+### Install Other Packages
 
-### Install other packages
+After installing PyTorch, you can install the remaining dependencies for iSORT from the provided `requirements.txt` file. This file lists all the necessary Python packages and their versions to ensure compatibility and smooth operation of iSORT.
 
+To install these dependencies, run the following command:
+
+```bash
+pip install -r requirements.txt
+```
+
+This will automatically install all the packages listed in the `requirements.txt` file with the specified versions.
+
+Note: Make sure that you have activated the virtual environment (`iSORT-env` if you followed the earlier steps) before running this command. Also, since PyTorch has already been installed separately to match your system's CUDA version, ensure that PyTorch is not listed in the `requirements.txt` to avoid version conflicts.
+
+### Install iSORT
+
+To install iSORT, simply use pip with the following command:
+
+```bash
+pip install isortpy
+```
+
+This command will download and install the iSORT package from PyPI, making it ready to use in your Python environment.

@@ -25,10 +25,28 @@ It is recommended to create a virtual environment for using iSORT to avoid any c
 ```bash
 conda create -n isortpy-env python=3.8 
 conda activate isortpy-env
-
+```
 
 
 
 ### Install pytorch
+了解了，我会根据您的要求修改 PyTorch 安装部分的描述，并使用英文。以下是针对 `README.md` 的建议文本：
+
+---
+
+### Install PyTorch
+
+PyTorch installation depends on your system's CUDA version to enable GPU support. You should visit the [PyTorch official website](https://pytorch.org/get-started/locally/) to find the appropriate installation command based on your system configuration (operating system, CUDA version, etc.).
+
+For example, the installation command for a system with CUDA 11.3 might look like this (you should use the command specific to your system setup):
+
+```bash
+pip install torch torchvision torchaudio -f https://download.pytorch.org/whl/torch_stable.html
+```
+Note: This is just an example. Please refer to the PyTorch website for the command that matches your system's specific requirements.
+
+---
+
+
 ### Install other packages
 

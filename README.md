@@ -1,6 +1,6 @@
 # iSORT
 ## iSORT : an Integrative Method for Reconstructing Spatial Organization of Cells via Transfer Learning
-iSORT is an computational tool to integrate scRNA-seq data and spatial transcriptomics (ST) data. 
+iSORT is an computational tool to integrate scRNA-seq data and spatial transcriptomics (ST) data. To integrate the biological heterogeneity among different samples, iSORT, using transfer learning and leveraging multiple Spatial Transcriptomics (ST) slices, is capable of capturing individual specificity while enhancing the accuracy and robustness of predictions for the spatial locations of single-cell RNA sequencing (scRNA-seq) data. This method further aids in identifying Spatially Variable Genes (SVGs), offering insights for the diagnosis and treatment of critical genes associated with diseases.
 
 ### Pipeline for single-slice case
 

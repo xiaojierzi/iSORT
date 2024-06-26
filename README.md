@@ -4,7 +4,7 @@ iSORT is an computational tool to integrate scRNA-seq data and spatial transcrip
 
 ### Pipeline of iSORT
 
-![avatar](pipeline/figure1.pdf)
+![avatar](pipeline/pipeline.png)
 
 ## Requirements and Installation
 [![python >=3.8](https://img.shields.io/badge/python-%3E%3D3.8-brightgreen)](https://www.python.org/)

@@ -2,9 +2,9 @@
 ## iSORT : an Integrative Method for Reconstructing Spatial Organization of Cells via Transfer Learning
 iSORT is an computational tool to integrate scRNA-seq data and spatial transcriptomics (ST) data. To integrate the biological heterogeneity among different samples, iSORT, using transfer learning and leveraging multiple Spatial Transcriptomics (ST) slices, is capable of capturing individual specificity while enhancing the accuracy and robustness of predictions for the spatial locations of single-cell RNA sequencing (scRNA-seq) data. This method further aids in identifying Spatially Variable Genes (SVGs), offering insights for the diagnosis and treatment of critical genes associated with diseases.
 
-### Pipeline for single-slice case
+### Pipeline of iSORT
 
-![avatar](pipeline/pipeline_single_slice.png)
+![avatar](pipeline/figure1.pdf)
 
 ## Requirements and Installation
 [![python >=3.8](https://img.shields.io/badge/python-%3E%3D3.8-brightgreen)](https://www.python.org/)

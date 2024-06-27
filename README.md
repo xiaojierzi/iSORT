@@ -1,6 +1,6 @@
 # iSORT
 ## Transfer learning of multicellular organization via single-cell and spatial transcriptomics
-iSORT is an computational tool to integrate scRNA-seq data and spatial transcriptomics (ST) data. To integrate the biological heterogeneity among different samples, iSORT, using transfer learning and leveraging multiple Spatial Transcriptomics (ST) slices, is capable of capturing individual specificity while enhancing the accuracy and robustness of predictions for the spatial locations of single-cell RNA sequencing (scRNA-seq) data. This method further aids in identifying Spatially Variable Genes (SVGs), offering insights for the diagnosis and treatment of critical genes associated with diseases.
+iSORT is an computational tool to integrate scRNA-seq data and spatial transcriptomics (ST) data. To integrate the biological heterogeneity among different samples, iSORT, using transfer learning and leveraging multiple Spatial Transcriptomics (ST) slices, is capable of capturing individual specificity while enhancing the accuracy and robustness of predictions for the spatial locations of single-cell RNA sequencing (scRNA-seq) data. This method further aids in identifying Spatial-Organizing Genes (SOGs), offering insights for the diagnosis and treatment of critical genes associated with diseases. Furthermore, iSORT could visualize SpaRNA velocity on the read ST slice.
 
 ### Pipeline of iSORT
 
@@ -65,3 +65,7 @@ pip install isortpy
 ```
 
 This command will download and install the iSORT package from PyPI, making it ready to use in your Python environment.
+
+### Tutorial of iSORT
+For the tutorial, you can download the necessary data from [this link](xxx). 
+

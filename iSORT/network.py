@@ -28,8 +28,9 @@ class NeuralNet(nn.Module):
 
     """
 
-    def __init__(self, input_features, hidden_layers, output_features):
+    def __init__(self, input_features, hidden_layers, output_features, use_dropout=True):
         super(NeuralNet, self).__init__()
+        self.use_dropout = use_dropout
         self.layers = nn.ModuleList()
         
         self.layers.append(nn.Linear(input_features, hidden_layers[0]))
@@ -44,13 +45,14 @@ class NeuralNet(nn.Module):
     def forward(self, x):
         for i in range(len(self.layers) - 1):
             x = nn.ReLU()(self.layers[i](x))
-            x = self.dropout(x)
+            if self.use_dropout:
+                x = self.dropout(x)
         x = self.layers[-1](x) 
         return x
 
 
 
-def initialize_model(input_features, hidden_layers, output_features):
+def initialize_model(input_features, hidden_layers, output_features, use_dropout=True):
     """
     Function: Initializes and returns a neural network model, loss criterion, and optimizer.
 
@@ -66,13 +68,13 @@ def initialize_model(input_features, hidden_layers, output_features):
 
     """
 
-    model = NeuralNet(input_features, hidden_layers, output_features).to('cuda')
+    model = NeuralNet(input_features, hidden_layers, output_features,use_dropout).to('cuda')
     criterion = nn.MSELoss() 
-    optimizer = optim.Adam(model.parameters(), lr=0.001, weight_decay=1e-4)
+    optimizer = optim.Adam(model.parameters(), lr=0.0005, weight_decay=1e-4)
     return model, criterion, optimizer
 
 
-def prepare_data(source_mapped, spatial, weights):
+def prepare_data(source_mapped, spatial, weights=None, if_weighted=True):
     """
     Function: Prepares data loaders for training and validation.
 
@@ -89,15 +91,18 @@ def prepare_data(source_mapped, spatial, weights):
     - val_loader (DataLoader): DataLoader for validation data.
 
     """
-    X = torch.tensor(source_mapped, dtype=torch.float32).to('cuda')
-    Y = torch.tensor(spatial, dtype=torch.float32).to('cuda')
-    W = torch.tensor(weights, dtype=torch.float32).to('cuda')
-    
-    dataset = TensorDataset(X, Y, W)
-    
+    if if_weighted:
+        X = torch.tensor(source_mapped, dtype=torch.float32).to('cuda')
+        Y = torch.tensor(spatial, dtype=torch.float32).to('cuda')
+        W = torch.tensor(weights, dtype=torch.float32).to('cuda')
+        dataset = TensorDataset(X, Y, W)
+    else:
+        X = torch.tensor(source_mapped, dtype=torch.float32).to('cuda')
+        Y = torch.tensor(spatial, dtype=torch.float32).to('cuda')
+        dataset = TensorDataset(X, Y)
+
     train_size = int(0.8 * len(dataset))
     val_size = len(dataset) - train_size
-    
     train_dataset, val_dataset = random_split(dataset, [train_size, val_size])
     train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
     val_loader = DataLoader(val_dataset, batch_size=64)
@@ -111,7 +116,7 @@ def seed_everything(seed=1234):
     torch.manual_seed(seed)  
     torch.cuda.manual_seed(seed)  
     torch.backends.cudnn.deterministic = True
-
+    torch.backends.cudnn.benchmark = False
 
 
 def predict_and_plot(model, test_data, adata, cluster_name):
@@ -195,7 +200,7 @@ def custom_loss(y_pred, y_true, alpha, beta_val, ns):
     return loss
 
 
-def train_and_validate(model, train_loader, val_loader, optimizer, criterion, epochs=200):
+def train_and_validate(model, train_loader, val_loader, optimizer, criterion, epochs=200, if_weighted=True):
     """
     Function: Trains and validates the neural network model.
 
@@ -213,30 +218,52 @@ def train_and_validate(model, train_loader, val_loader, optimizer, criterion, ep
     """
 
     print("Starting")
-
-    for epoch in range(epochs):
-        model.train()
-        total_loss = 0.0
-        
-        for batch_X, batch_Y, batch_weights in train_loader:
-            batch_X, batch_Y, batch_weights = batch_X.to('cuda'), batch_Y.to('cuda'), batch_weights.to('cuda')
-            optimizer.zero_grad()
-            outputs = model(batch_X)
-            loss = compute_weighted_loss(outputs, batch_Y, batch_weights, criterion)
-            loss.backward()
-            optimizer.step()
-            total_loss += loss.item()
-        
-        model.eval()
-        val_loss = 0.0
-        with torch.no_grad():
-            for batch_X, batch_Y, batch_weights in val_loader:
+    if if_weighted:
+        for epoch in range(epochs):
+            model.train()
+            total_loss = 0.0
+            
+            for batch_X, batch_Y, batch_weights in train_loader:
                 batch_X, batch_Y, batch_weights = batch_X.to('cuda'), batch_Y.to('cuda'), batch_weights.to('cuda')
+                optimizer.zero_grad()
                 outputs = model(batch_X)
                 loss = compute_weighted_loss(outputs, batch_Y, batch_weights, criterion)
-                val_loss += loss.item()
-
-    print('Done!')
+                loss.backward()
+                optimizer.step()
+                total_loss += loss.item()
+            
+            model.eval()
+            val_loss = 0.0
+            with torch.no_grad():
+                for batch_X, batch_Y, batch_weights in val_loader:
+                    batch_X, batch_Y, batch_weights = batch_X.to('cuda'), batch_Y.to('cuda'), batch_weights.to('cuda')
+                    outputs = model(batch_X)
+                    loss = compute_weighted_loss(outputs, batch_Y, batch_weights, criterion)
+                    val_loss += loss.item()
+        print('Done!')
+    else:
+        for epoch in range(epochs):
+            model.train()
+            total_loss = 0.0
+            
+            for batch_X, batch_Y in train_loader:
+                batch_X, batch_Y = batch_X.to('cuda'), batch_Y.to('cuda')
+                optimizer.zero_grad()
+                outputs = model(batch_X)
+                loss = criterion(outputs, batch_Y)
+                loss.backward()
+                optimizer.step()
+                total_loss += loss.item()
+            
+            model.eval()
+            val_loss = 0.0
+            with torch.no_grad():
+                for batch_X, batch_Y in val_loader:
+                    batch_X, batch_Y = batch_X.to('cuda'), batch_Y.to('cuda')
+                    outputs = model(batch_X)
+                    loss = criterion(outputs, batch_Y)
+                    val_loss += loss.item()
+        print('Done!')
 
 
 

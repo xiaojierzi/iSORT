@@ -1,4 +1,5 @@
 from .iSORT import *
-from .SVGlocate import *
+from .SOGlocate import *
 from .network import *
 from .preprocess import *
+from .SpaRNA import *

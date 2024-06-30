@@ -7,7 +7,7 @@ iSORT is an computational tool to integrate scRNA-seq data and spatial transcrip
 ![avatar](pipeline/pipeline.png)
 
 ## Requirements and Installation
-[![python >=3.8](https://img.shields.io/badge/python-%3E%3D3.8-brightgreen)](https://www.python.org/)
+[![python >=3.9](https://img.shields.io/badge/python-%3E%3D3.8-brightgreen)](https://www.python.org/)
 [![anndata 0.9.2](https://img.shields.io/badge/anndata-0.9.2-blue)](https://pypi.org/project/anndata/) 
 [![cvxpy 1.4.1](https://img.shields.io/badge/cvxpy-1.4.1-lightgrey)](https://pypi.org/project/cvxpy/)
 [![matplotlib 3.7.2](https://img.shields.io/badge/matplotlib-3.7.2-yellow)](https://pypi.org/project/matplotlib/)
@@ -24,7 +24,7 @@ iSORT is an computational tool to integrate scRNA-seq data and spatial transcrip
 ### Create and activate Python environment
 It is recommended to create a virtual environment for using iSORT to avoid any conflicts with existing Python installations. You can create a virtual environment using Anaconda:
 ```bash
-conda create -n iSORT-env python=3.8 
+conda create -n iSORT-env python=3.9
 conda activate iSORT-env
 ```
 

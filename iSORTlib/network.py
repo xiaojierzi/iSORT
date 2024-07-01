@@ -68,7 +68,7 @@ def initialize_model(input_features, hidden_layers, output_features, use_dropout
 
     """
 
-    model = NeuralNet(input_features, hidden_layers, output_features,use_dropout).to('cuda')
+    model = NeuralNet(input_features, hidden_layers, output_features,use_dropout).to(device)
     criterion = nn.MSELoss() 
     optimizer = optim.Adam(model.parameters(), lr=0.0005, weight_decay=1e-4)
     return model, criterion, optimizer
@@ -92,13 +92,13 @@ def prepare_data(source_mapped, spatial, weights=None, if_weighted=True):
 
     """
     if if_weighted:
-        X = torch.tensor(source_mapped, dtype=torch.float32).to('cuda')
-        Y = torch.tensor(spatial, dtype=torch.float32).to('cuda')
-        W = torch.tensor(weights, dtype=torch.float32).to('cuda')
+        X = torch.tensor(source_mapped, dtype=torch.float32).to(device)
+        Y = torch.tensor(spatial, dtype=torch.float32).to(device)
+        W = torch.tensor(weights, dtype=torch.float32).to(device)
         dataset = TensorDataset(X, Y, W)
     else:
-        X = torch.tensor(source_mapped, dtype=torch.float32).to('cuda')
-        Y = torch.tensor(spatial, dtype=torch.float32).to('cuda')
+        X = torch.tensor(source_mapped, dtype=torch.float32).to(device)
+        Y = torch.tensor(spatial, dtype=torch.float32).to(device)
         dataset = TensorDataset(X, Y)
 
     train_size = int(0.8 * len(dataset))
@@ -137,7 +137,7 @@ def predict_and_plot(model, test_data, adata, cluster_name):
 
     """
     with torch.no_grad():
-        test = test_data.to('cuda')
+        test = test_data.to(device)
         predictions_normalized = model(test)
     predictions_normalized = predictions_normalized.to('cpu')
     predictions_array = predictions_normalized.numpy()
@@ -187,9 +187,9 @@ def custom_loss(y_pred, y_true, alpha, beta_val, ns):
     """
    
     if isinstance(beta_val, int) or isinstance(beta_val, float):
-        beta_val = torch.tensor(beta_val, dtype=torch.float32, device='cuda:0')
+        beta_val = torch.tensor(beta_val, dtype=torch.float32, device=device)
     if isinstance(ns, int) or isinstance(ns, float):
-        ns = torch.tensor(ns, dtype=torch.float32, device='cuda:0')
+        ns = torch.tensor(ns, dtype=torch.float32, device=device)
     
     beta_expanded = beta_val.unsqueeze(0).unsqueeze(1)
     ns_expanded = ns.unsqueeze(0).unsqueeze(1)
@@ -224,7 +224,7 @@ def train_and_validate(model, train_loader, val_loader, optimizer, criterion, ep
             total_loss = 0.0
             
             for batch_X, batch_Y, batch_weights in train_loader:
-                batch_X, batch_Y, batch_weights = batch_X.to('cuda'), batch_Y.to('cuda'), batch_weights.to('cuda')
+                batch_X, batch_Y, batch_weights = batch_X.to(device), batch_Y.to(device), batch_weights.to(device)
                 optimizer.zero_grad()
                 outputs = model(batch_X)
                 loss = compute_weighted_loss(outputs, batch_Y, batch_weights, criterion)
@@ -236,7 +236,7 @@ def train_and_validate(model, train_loader, val_loader, optimizer, criterion, ep
             val_loss = 0.0
             with torch.no_grad():
                 for batch_X, batch_Y, batch_weights in val_loader:
-                    batch_X, batch_Y, batch_weights = batch_X.to('cuda'), batch_Y.to('cuda'), batch_weights.to('cuda')
+                    batch_X, batch_Y, batch_weights = batch_X.to(device), batch_Y.to(device), batch_weights.to(device)
                     outputs = model(batch_X)
                     loss = compute_weighted_loss(outputs, batch_Y, batch_weights, criterion)
                     val_loss += loss.item()
@@ -247,7 +247,7 @@ def train_and_validate(model, train_loader, val_loader, optimizer, criterion, ep
             total_loss = 0.0
             
             for batch_X, batch_Y in train_loader:
-                batch_X, batch_Y = batch_X.to('cuda'), batch_Y.to('cuda')
+                batch_X, batch_Y = batch_X.to(device), batch_Y.to(device)
                 optimizer.zero_grad()
                 outputs = model(batch_X)
                 loss = criterion(outputs, batch_Y)
@@ -259,7 +259,7 @@ def train_and_validate(model, train_loader, val_loader, optimizer, criterion, ep
             val_loss = 0.0
             with torch.no_grad():
                 for batch_X, batch_Y in val_loader:
-                    batch_X, batch_Y = batch_X.to('cuda'), batch_Y.to('cuda')
+                    batch_X, batch_Y = batch_X.to(device), batch_Y.to(device)
                     outputs = model(batch_X)
                     loss = criterion(outputs, batch_Y)
                     val_loss += loss.item()

@@ -4,6 +4,7 @@ import warnings
 import cvxpy as cp
 
 warnings.filterwarnings("ignore")
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 class KLIEP:
@@ -62,7 +63,7 @@ class KLIEP:
         - sc_adata (Anndata): Anndata object containing scRNA-seq data.
         """
 
-        self.X_sc = torch.tensor(sc_adata.X, dtype=torch.float32).to('cuda')
+        self.X_sc = torch.tensor(sc_adata.X, dtype=torch.float32).to(device)
         A = self.gaussian_kernel_matrix(self.X_sc, self.X_sc, self.sigma).cpu().numpy()
         b = torch.mean(self.gaussian_kernel_matrix(self.X_sc, self.X_sc, self.sigma), dim=0).cpu().numpy()
         
@@ -89,8 +90,8 @@ class KLIEP:
         -  Array of calculated weights for each sample in the ST slice.
         """
 
-        X_st = torch.tensor(adata_st.X, dtype=torch.float64).to('cuda')
-        alpha_t = torch.tensor(self.alpha, dtype=torch.float64).to('cuda')
+        X_st = torch.tensor(adata_st.X, dtype=torch.float64).to(device)
+        alpha_t = torch.tensor(self.alpha, dtype=torch.float64).to(device)
 
         def w_gpu(x):
             dist = torch.norm(self.X_sc - x, dim=1)

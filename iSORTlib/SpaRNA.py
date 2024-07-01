@@ -18,9 +18,10 @@ class SpaRNAVelocity:
         Returns:
         - predictions_velocity (torch.Tensor): Computed SpaRNA velocity.
         """
+        device = next(model.parameters()).device
         with torch.no_grad():
-            velocity = velocity.to('cuda')
-            space = space.to('cuda')
+            velocity = velocity.to(device)
+            space = space.to(device)
             predictions_velocity = model(space+velocity) - model(space)
         predictions_velocity = predictions_velocity.to('cpu')
         return predictions_velocity

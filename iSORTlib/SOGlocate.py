@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import scanpy as sc
 
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def compute_important_genes_and_indices(model, sc_data, num_top_genes, output_dim):
     """
@@ -30,7 +31,7 @@ def compute_important_genes_and_indices(model, sc_data, num_top_genes, output_di
     gene_names = sc_data.var_names.tolist()
     input_data = sc_data.X
 
-    test = torch.tensor(input_data, dtype=torch.float32, device='cuda', requires_grad=True)
+    test = torch.tensor(input_data, dtype=torch.float32, device=device, requires_grad=True)
 
     output = model(test)
 
@@ -86,7 +87,7 @@ def knockout_and_visualize(model, test_data, top_genes_indices, sc_obj, color, t
     top_genes_indices = np.array(top_genes_indices).copy()
     test_knockout = test_data.clone()
     test_knockout[:, top_genes_indices] = 0
-    test_knockout = test_knockout.to('cuda')
+    test_knockout = test_knockout.to(device)
     
     model.eval()
     with torch.no_grad():

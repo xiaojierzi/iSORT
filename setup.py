@@ -9,6 +9,6 @@ setup(
     url='https://github.com/xiaojierzi/iSORT',
     packages=find_packages(), 
     install_requires=[],
-    python_requires='>=3.8',
+    python_requires='>=3.9',
     license='GNU General Public License v3.0',
 )

@@ -74,6 +74,3 @@ For the tutorial, you can download the necessary data from [this link](https://d
 Our work **"Transfer learning of multicellular organization via single-cell and spatial transcriptomics"** has been officially published in **PLOS Computational Biology**!  
 Read the full paper here: [https://doi.org/10.1371/journal.pcbi.1012991](https://doi.org/10.1371/journal.pcbi.1012991)
 
-If you find **iSORT** helpful in your research, please consider citing us:
-Tan Y, Wang A, Wang Z, Lin W, Yan Y, Nie Q, Shi J. Transfer learning of multicellular organization via single-cell and spatial transcriptomics. *PLOS Computational Biology*. 2025 Apr 21;21(4):e1012991. https://doi.org/10.1371/journal.pcbi.1012991
-

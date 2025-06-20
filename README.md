@@ -69,3 +69,23 @@ This command will download and install the iSORT package from PyPI, making it re
 ### Tutorial of iSORT
 For the tutorial, you can download the necessary data from [this link](https://drive.google.com/drive/folders/1AbPupn8p91JEYqkYB0104bXrB9hieze6?usp=drive_link). 
 
+## 
+
+Our work **"Transfer learning of multicellular organization via single-cell and spatial transcriptomics"** has been officially published in **PLOS Computational Biology**!  
+Read the full paper here: [https://doi.org/10.1371/journal.pcbi.1012991](https://doi.org/10.1371/journal.pcbi.1012991)
+
+If you find **iSORT** helpful in your research, please consider citing us:
+
+```bibtex
+@article{Li2024iSORT,
+  title     = {Transfer learning of multicellular organization via single-cell and spatial transcriptomics},
+  author    = {Li, Jie and Zhang, Yutong and Zhu, Lingxiao and Jiang, Rui},
+  journal   = {PLOS Computational Biology},
+  volume    = {20},
+  number    = {6},
+  pages     = {e1012991},
+  year      = {2024},
+  publisher = {Public Library of Science},
+  doi       = {10.1371/journal.pcbi.1012991}
+}
+

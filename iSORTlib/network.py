@@ -166,7 +166,7 @@ def compute_weighted_loss(outputs, targets, weights,criterion):
 
     """
 
-    loss = criterion(outputs, targets)
+    loss = ((outputs - targets) ** 2).mean(dim=1)
     return (loss * weights).mean()
 
 
@@ -299,7 +299,7 @@ def train_model(model, optimizer, EPOCHS, data_sets, labels, weights, beta_value
             beta_val_tensor = torch.tensor(beta_val, dtype=torch.float32).to(device)
 
             outputs = model(xs)
-            loss = custom_loss(outputs, ys, weights_tensor, ns, beta_val_tensor)
+            loss = custom_loss(outputs, ys, weights_tensor, beta_val_tensor, ns)
             total_loss += loss.item()  
 
             loss.backward()  
